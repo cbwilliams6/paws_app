@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'nav_bar.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class LoginPageState extends State<LoginPage> {
     // Ensure that Splash and Login pages are removed from the stack when going to Home
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (context) => MyHomePage()),
+      MaterialPageRoute(builder: (context) => NavigationBarPage()),
       (route) => false, // Removes all previous routes
     );
   }

@@ -1,103 +1,63 @@
 import 'package:flutter/material.dart';
-import 'package:paws_app/pages/splash_page.dart';
 
-import 'generator_page.dart';
-import 'favorites_page.dart';
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var selectedIndex = 0;
-
-  // Key to control the scaffold (open/close drawer)
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget page;
-
-    // Select the page based on the current index
-    switch (selectedIndex) {
-      case 0:
-        page = GeneratorPage();
-      case 1:
-        page = FavoritesPage();
-      default:
-        throw UnimplementedError('No widget for $selectedIndex');
-    }
+    // Gets the color scheme from the apps theme
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text('PAWS App'),
-        leading: IconButton(
-          icon: Icon(Icons.menu), // Button to open the drawer
-          onPressed: () {
-            _scaffoldKey.currentState?.openDrawer(); // Open the drawer
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              // Clear the navigator stack and push SplashPage when logging out
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SplashPage()),
-                (route) => false, // Remove all previous routes
-              );
-            },
-          ),
-        ],
-      ),
-      drawer: Drawer(
-        child: ListView(
+      body: SafeArea(  // Makes sure content is not overlapped by system UI
+        child: Column(
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.teal),
-              child: Text('Navigation', style: TextStyle(color: Colors.white)),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
-              onTap: () {
-                setState(() {
-                  selectedIndex = 0; // Set index to Home
-                });
-                Navigator.pop(context); // Close the drawer after selection
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Favorites'),
-              onTap: () {
-                setState(() {
-                  selectedIndex = 1; // Set index to Favorites
-                });
-                Navigator.pop(context); // Close the drawer after selection
-              },
-            ),
-          ],
-        ),
-      ),
-      body: WillPopScope(
-        onWillPop: () async {
-          if (_scaffoldKey.currentState?.isDrawerOpen ?? false) {
-            // If the drawer is open, close it
-            _scaffoldKey.currentState?.closeDrawer();
-            return false; // Don't exit the app
-          }
-          return true; // Allow back navigation
-        },
-        child: Row(
-          children: [
+            // First block - Live Camera
             Expanded(
+              flex: 1,  // This block takes 1/3 of the screen height
               child: Container(
-                color: Theme.of(context).colorScheme.secondaryContainer,
-                child: page,
+                color: colorScheme.primary,  // Using primary color from the theme
+                child: Center(
+                  child: Text(
+                    'Live Camera',
+                    style: TextStyle(
+                      fontSize: 24, 
+                      color: colorScheme.onPrimary, // Ensure text is readable on primary color
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Second block - Saved Pictures
+            Expanded(
+              flex: 1,  // This block takes 1/3 of the screen height
+              child: Container(
+                color: colorScheme.secondary,  // Using secondary color from the theme
+                child: Center(
+                  child: Text(
+                    'Saved Pictures',
+                    style: TextStyle(
+                      fontSize: 24, 
+                      color: colorScheme.onSecondary, // Ensure text is readable on secondary color
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Third block - Activity Log
+            Expanded(
+              flex: 1,  // This block takes 1/3 of the screen height
+              child: Container(
+                color: colorScheme.tertiary,  // Using tertiary color from the theme
+                child: Center(
+                  child: Text(
+                    'Activity Log',
+                    style: TextStyle(
+                      fontSize: 24, 
+                      color: colorScheme.onTertiary, // Ensure text is readable on tertiary color
+                    ),
+                  ),
+                ),
               ),
             ),
           ],

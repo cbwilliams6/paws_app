@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'pages/splash_page.dart';
 import 'pages/login_page.dart';
 import 'pages/register_page.dart';
-import 'pages/home_page.dart';
+import 'pages/nav_bar.dart';
 import 'app_state.dart';
 
 void main() {
@@ -42,7 +42,7 @@ class RouteGenerator {
       case '/register':
         return MaterialPageRoute(builder: (_) => RegisterPage());
       case '/home':
-        return MaterialPageRoute(builder: (_) => MyHomePage());
+        return MaterialPageRoute(builder: (_) => NavigationBarPage());
       default:
         return _errorRoute();
     }
