@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,7 +11,12 @@ class LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
 
   void _login() {
-    Navigator.pushReplacementNamed(context, '/home');
+    // Ensure that Splash and Login pages are removed from the stack when going to Home
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage()),
+      (route) => false, // Removes all previous routes
+    );
   }
 
   @override
@@ -52,9 +58,9 @@ class LoginPageState extends State<LoginPage> {
 
               // Login button
               ElevatedButton(
-                onPressed: _login,
+                onPressed: _login, // Use the _login method which uses named routes
                 child: Text('Login'),
-              ),
+              )
             ],
           ),
         ),

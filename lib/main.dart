@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         ),
-        initialRoute: '/', // SplashPage initial route state
+        initialRoute: '/', // SplashPage is the route starting point
         onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
