@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
-
 class LoginPage extends StatefulWidget {
   @override
   LoginPageState createState() => LoginPageState();
 }
-
 
 class LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
@@ -14,10 +11,7 @@ class LoginPageState extends State<LoginPage> {
   
   void _login() {
     // Simulate login by navigating to the home page
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MyHomePage()),
-    );
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override

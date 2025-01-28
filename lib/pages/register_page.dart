@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'splash_page.dart';
-
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -23,11 +21,8 @@ class RegisterPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Add registration logic here
-                // Navigate to splash page
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => SplashPage()),
-                );
+                // Navigate to splash page or another page
+                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               },
               child: Text("Register"),
             ),

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'pages/splash_page.dart';
+import 'pages/login_page.dart';
+import 'pages/register_page.dart';
+import 'pages/home_page.dart';
 import 'app_state.dart';
 
 void main() {
@@ -21,7 +24,34 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         ),
-        home: SplashPage(), // Start with SplashPage
+        initialRoute: '/', // SplashPage will be the initial route
+        onGenerateRoute: RouteGenerator.generateRoute, // Custom route generation
+      ),
+    );
+  }
+}
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/':
+        return MaterialPageRoute(builder: (_) => SplashPage());
+      case '/login':
+        return MaterialPageRoute(builder: (_) => LoginPage());
+      case '/register':
+        return MaterialPageRoute(builder: (_) => RegisterPage());
+      case '/home':
+        return MaterialPageRoute(builder: (_) => MyHomePage());
+      default:
+        return _errorRoute();
+    }
+  }
+
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(
+      builder: (_) => Scaffold(
+        appBar: AppBar(title: Text('Error')),
+        body: Center(child: Text('ERROR: Route not found')),
       ),
     );
   }

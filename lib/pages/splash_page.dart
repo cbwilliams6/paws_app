@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'login_page.dart';
-import 'register_page.dart';
-
 class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,10 +28,7 @@ class SplashPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to login page
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginPage()),
-                    );
+                    Navigator.pushNamed(context, '/login');
                   },
                   child: Text("Login"),
                 ),
@@ -44,10 +38,7 @@ class SplashPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     // Navigate to register page
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterPage()),
-                    );
+                    Navigator.pushNamed(context, '/register');
                   },
                   child: Text("Register"),
                 ),
