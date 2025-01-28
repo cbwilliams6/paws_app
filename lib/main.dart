@@ -19,18 +19,19 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Test App',
+        title: 'Paws App',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         ),
-        initialRoute: '/', // SplashPage will be the initial route
-        onGenerateRoute: RouteGenerator.generateRoute, // Custom route generation
+        initialRoute: '/', // SplashPage initial route state
+        onGenerateRoute: RouteGenerator.generateRoute,
       ),
     );
   }
 }
 
+// Dynamic route generation so user can press back button to go back to previous pages
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {

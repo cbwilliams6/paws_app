@@ -10,18 +10,25 @@ class RegisterPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Username input field
             TextField(
               decoration: InputDecoration(labelText: "Username"),
             ),
+
+            SizedBox(height: 10), // Spacing between input fields
+
+            // Password input field
             TextField(
               obscureText: true,
               decoration: InputDecoration(labelText: "Password"),
             ),
-            SizedBox(height: 20),
+
+            SizedBox(height: 20), // Spacing between input fields and register button
+
+            // Register button
             ElevatedButton(
               onPressed: () {
-                // Add registration logic here
-                // Navigate to splash page or another page
+                // Registration logic here later
                 Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               },
               child: Text("Register"),

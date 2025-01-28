@@ -32,7 +32,8 @@ class SplashPage extends StatelessWidget {
                   },
                   child: Text("Login"),
                 ),
-                SizedBox(height: 20),
+
+                SizedBox(height: 20), // Vertical spacing between buttons
                 
                 // Register Button
                 ElevatedButton(

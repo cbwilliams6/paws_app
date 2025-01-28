@@ -8,9 +8,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  
+
   void _login() {
-    // Simulate login by navigating to the home page
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -23,8 +22,12 @@ class LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Login page title
               Text('Login', style: Theme.of(context).textTheme.headlineMedium),
-              SizedBox(height: 20),
+
+              SizedBox(height: 20), // Spacing between title text and textfields
+
+              // Username input field
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(
@@ -32,7 +35,10 @@ class LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 10),
+
+              SizedBox(height: 10), // Spacing between input fields
+
+              // Password input field
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -41,7 +47,10 @@ class LoginPageState extends State<LoginPage> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 20),
+
+              SizedBox(height: 20), // Spacing between textfields and login button
+
+              // Login button
               ElevatedButton(
                 onPressed: _login,
                 child: Text('Login'),
