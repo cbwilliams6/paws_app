@@ -1,6 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
+  @override
+  RegisterPageState createState() => RegisterPageState();
+}
+
+class RegisterPageState extends State<RegisterPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _register() async {
+    try {
+      await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+
+      Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration failed: ${e.toString()}')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,15 +35,17 @@ class RegisterPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Username input field
+            // Email input field
             TextField(
-              decoration: InputDecoration(labelText: "Username"),
+              controller: _emailController,
+              decoration: InputDecoration(labelText: "Email"),
             ),
 
             SizedBox(height: 10), // Spacing between input fields
 
             // Password input field
             TextField(
+              controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(labelText: "Password"),
             ),
@@ -27,10 +54,7 @@ class RegisterPage extends StatelessWidget {
 
             // Register button
             ElevatedButton(
-              onPressed: () {
-                // Registration logic here later
-                Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
-              },
+              onPressed: _register,
               child: Text("Register"),
             ),
           ],

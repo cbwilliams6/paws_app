@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paws_app/pages/splash_page.dart';
 
 import 'generator_page.dart';
 import 'favorites_page.dart';
-import 'home_page.dart'; // Import the new Home Page
+import 'gallery_page.dart';
+import 'home_page.dart';
 
 class NavigationBarPage extends StatefulWidget {
   @override
@@ -28,6 +30,8 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         page = GeneratorPage();
       case 2:
         page = FavoritesPage();
+      case 3:
+        page = GalleryPage();
       default:
         throw UnimplementedError('No widget for $selectedIndex');
     }
@@ -45,13 +49,23 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () {
-              // Clear the navigator stack and push SplashPage when logging out
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => SplashPage()),
-                (route) => false, // Remove all previous routes
-              );
+            onPressed: () async {
+              try {
+                // Sign out from Firebase
+                await FirebaseAuth.instance.signOut();
+                
+                // Clear the navigator stack and push SplashPage when logging out
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => SplashPage()),
+                  (route) => false, // Remove all previous routes
+                );
+              } catch (e) {
+                // Handle error if signing out fails
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to log out. Please try again.')),
+                );
+              }
             },
           ),
         ],
@@ -92,6 +106,17 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
               onTap: () {
                 setState(() {
                   selectedIndex = 2; // Set index to Favorites
+                });
+                Navigator.pop(context); // Close the drawer after selection
+              },
+            ),
+            // Gallery page in the navigation drawer
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Gallery'),
+              onTap: () {
+                setState(() {
+                  selectedIndex = 3; // Set index to Favorites
                 });
                 Navigator.pop(context); // Close the drawer after selection
               },

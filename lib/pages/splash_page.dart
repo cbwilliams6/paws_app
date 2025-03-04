@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      if (FirebaseAuth.instance.currentUser != null) {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    });
+
     return Scaffold(
       body: Column(
         children: [
@@ -26,10 +33,8 @@ class SplashPage extends StatelessWidget {
               children: [
                 // Login Button
                 ElevatedButton(
-                  onPressed: () {
-                    // Navigate to login page
-                    Navigator.pushNamed(context, '/login');
-                  },
+                  // Navigate to login page
+                  onPressed: () => Navigator.pushNamed(context, '/login'),
                   child: Text("Login"),
                 ),
 
@@ -37,10 +42,8 @@ class SplashPage extends StatelessWidget {
                 
                 // Register Button
                 ElevatedButton(
-                  onPressed: () {
-                    // Navigate to register page
-                    Navigator.pushNamed(context, '/register');
-                  },
+                  // Navigate to register page
+                  onPressed: () => Navigator.pushNamed(context, '/register'),
                   child: Text("Register"),
                 ),
               ],

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "686634015930",
+    "project_id": "paws-sd2-spring2025",
+    "storage_bucket": "paws-sd2-spring2025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686634015930:android:e0a584e1dccc5d25ca3683",
+        "android_client_info": {
+          "package_name": "com.example.paws_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqNFldDIcCvTrf6mOfQIbYaou4TYqmRJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

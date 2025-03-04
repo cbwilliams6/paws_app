@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'nav_bar.dart';
 
 class LoginPage extends StatefulWidget {
@@ -7,16 +8,27 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void _login() {
+  void _login() async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
     // Ensure that Splash and Login pages are removed from the stack when going to Home
     Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => NavigationBarPage()),
-      (route) => false, // Removes all previous routes
-    );
+        context,
+        MaterialPageRoute(builder: (context) => NavigationBarPage()),
+        (route) => false, // Removes all previous routes
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Login failed: ${e.toString()}')),
+      );
+    }
   }
 
   @override
@@ -33,11 +45,11 @@ class LoginPageState extends State<LoginPage> {
 
               SizedBox(height: 20), // Spacing between title text and textfields
 
-              // Username input field
+              // Email input field
               TextField(
-                controller: _usernameController,
+                controller: _emailController,
                 decoration: InputDecoration(
-                  labelText: 'Username',
+                  labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
               ),
