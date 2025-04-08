@@ -5,6 +5,7 @@ import 'package:paws_app/pages/splash_page.dart';
 import 'generator_page.dart';
 import 'favorites_page.dart';
 import 'gallery_page.dart';
+import 'activity_log_page.dart';
 import 'home_page.dart';
 
 class NavigationBarPage extends StatefulWidget {
@@ -32,6 +33,8 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         page = FavoritesPage();
       case 3:
         page = GalleryPage();
+      case 4:
+        page = ActivityLogPage();
       default:
         throw UnimplementedError('No widget for $selectedIndex');
     }
@@ -116,7 +119,18 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
               title: Text('Gallery'),
               onTap: () {
                 setState(() {
-                  selectedIndex = 3; // Set index to Favorites
+                  selectedIndex = 3; // Set index to Gallery
+                });
+                Navigator.pop(context); // Close the drawer after selection
+              },
+            ),
+            // Activity Log page in the navigation drawer
+            ListTile(
+              leading: Icon(Icons.favorite),
+              title: Text('Activity Log'),
+              onTap: () {
+                setState(() {
+                  selectedIndex = 4; // Set index to Activity Log
                 });
                 Navigator.pop(context); // Close the drawer after selection
               },
