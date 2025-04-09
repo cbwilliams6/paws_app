@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../services/firestore_service.dart';
 
 class ActivityLogPage extends StatefulWidget {
   @override
@@ -10,32 +12,12 @@ class ActivityLogPage extends StatefulWidget {
 
 class _ActivityLogPageState extends State<ActivityLogPage> {
   DateTime? selectedDate;
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return Center(child: Text("Not logged in"));
-
-    final logQuery = FirebaseFirestore.instance
-        .collection('Users')
-        .doc(user.uid)
-        .collection('activity_logs')
-        .orderBy('timestamp', descending: true);
-
-    DateTime? start;
-    DateTime? end;
-
-    if (selectedDate != null) {
-      start = DateTime(selectedDate!.year, selectedDate!.month, selectedDate!.day);
-      end = start.add(Duration(days: 1));
-    }
-
-    final filteredQuery = selectedDate != null
-        ? logQuery
-            .where('timestamp', isGreaterThanOrEqualTo: Timestamp.fromDate(start!))
-            .where('timestamp', isLessThan: Timestamp.fromDate(end!))
-        : logQuery;
-
 
     return Scaffold(
       appBar: AppBar(
@@ -63,7 +45,7 @@ class _ActivityLogPageState extends State<ActivityLogPage> {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: filteredQuery.snapshots(),
+        stream: _firestoreService.getUserLogs(user.uid, date: selectedDate),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting){
             return Center(child: CircularProgressIndicator());
