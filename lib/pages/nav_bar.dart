@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paws_app/pages/splash_page.dart';
 
 import 'generator_page.dart';
@@ -14,6 +15,22 @@ class NavigationBarPage extends StatefulWidget {
 }
 
 class _NavigationBarPageState extends State<NavigationBarPage> {
+  @override
+  void initState() {
+    super.initState();
+    _updatePiUserId();
+  }
+
+  Future<void> _updatePiUserId() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      await FirebaseFirestore.instance.collection('raspberry_pis').doc('pi1').set({
+        'currentUserId': user.uid,
+      });
+      print('Updated Pi pairing with user ID: ${user.uid}');
+    }
+  }
+
   var selectedIndex = 0;
 
   // Key to control the scaffold (open/close drawer)
@@ -55,6 +72,9 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
             onPressed: () async {
               try {
                 // Sign out from Firebase
+                await FirebaseFirestore.instance.collection('raspberry_pis').doc('pi1').update({
+                  'currentUserId': FieldValue.delete(),
+                });
                 await FirebaseAuth.instance.signOut();
                 
                 // Clear the navigator stack and push SplashPage when logging out
