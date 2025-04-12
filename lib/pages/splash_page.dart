@@ -28,25 +28,42 @@ class SplashPage extends StatelessWidget {
           // Bottom half with buttons
           Expanded(
             flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Login Button
-                ElevatedButton(
-                  // Navigate to login page
-                  onPressed: () => Navigator.pushNamed(context, '/login'),
-                  child: Text("Login"),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // Login Button
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      // Navigate to login page
+                      onPressed: () => Navigator.pushNamed(context, '/login'),
+                      child: Text(
+                        "Login",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
 
-                SizedBox(height: 20), // Vertical spacing between buttons
-                
-                // Register Button
-                ElevatedButton(
-                  // Navigate to register page
-                  onPressed: () => Navigator.pushNamed(context, '/register'),
-                  child: Text("Register"),
-                ),
-              ],
+                  SizedBox(height: 20),
+                  
+                  // Register Button
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      // Navigate to register page
+                      onPressed: () => Navigator.pushNamed(context, '/register'),
+                      child: Text(
+                        "Register",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

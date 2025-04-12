@@ -4,30 +4,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirebaseStorageService {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<List<String>> getImages() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        print("No user logged in.");
-        return [];
+  Future<List<Map<String, dynamic>>> getImages({DateTime? forDate}) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return [];
+
+    final userRef = _storage.ref('Users/${user.uid}/pi_images/');
+    ListResult result = await userRef.listAll();
+
+    final List<Map<String, dynamic>> images = [];
+
+    for (var ref in result.items) {
+      final metadata = await ref.getMetadata();
+      final createdAt = metadata.timeCreated;
+
+      if (forDate != null && createdAt != null) {
+        final isSameDate = createdAt.year == forDate.year &&
+            createdAt.month == forDate.month &&
+            createdAt.day == forDate.day;
+
+        if (!isSameDate) continue;
       }
 
-      final userRef = _storage.ref('Users/${user.uid}/pi_images/');
-      ListResult result = await userRef.listAll();
-
-      print("Found ${result.items.length} images for user ${user.uid}");
-      List<String> urls = [];
-
-      for (var ref in result.items) {
-        String url = await ref.getDownloadURL();
-        print("Fetched URL: $url");
-        urls.add(url);
-      }
-
-      return urls;
-    } catch (e) {
-      print("Error getting images: $e");
-      return [];
+      final url = await ref.getDownloadURL();
+      images.add({
+        'url': url,
+        'createdAt': createdAt,
+      });
     }
+
+    images.sort((a, b) => b['createdAt'].compareTo(a['createdAt']));
+    return images;
   }
 }

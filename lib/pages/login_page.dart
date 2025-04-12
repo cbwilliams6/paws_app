@@ -18,8 +18,8 @@ class LoginPageState extends State<LoginPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-    // Ensure that Splash and Login pages are removed from the stack when going to Home
-    Navigator.pushAndRemoveUntil(
+      // Ensure that Splash and Login pages are removed from the stack when going to Home
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => NavigationBarPage()),
         (route) => false, // Removes all previous routes
@@ -33,48 +33,95 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Login page title
-              Text('Login', style: Theme.of(context).textTheme.headlineMedium),
+      backgroundColor: theme.colorScheme.background,
+      appBar: AppBar(title: Text('Login')),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenHeight = constraints.maxHeight;
+            final cardHeightEstimate = 450.0;
+            final verticalPadding = (screenHeight - cardHeightEstimate) / 2.5;
 
-              SizedBox(height: 20), // Spacing between title text and textfields
+            return SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Padding(
+                padding: EdgeInsets.only(top: verticalPadding.clamp(32, 120)),
+                child: Card(
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(
+                          'assets/paws_logo.png',
+                          height: 100,
+                        ),
+                        SizedBox(height: 16),
 
-              // Email input field
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
+                        Text(
+                          'Login to PAWS',
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                        ),
+
+                        SizedBox(height: 24),
+
+                        // Email text field
+                        TextField(
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.email),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+
+                        SizedBox(height: 16),
+
+                        // Password text field
+                        TextField(
+                          controller: _passwordController,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.lock),
+                          ),
+                        ),
+
+                        SizedBox(height: 24),
+
+                        // Login button
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton.icon(
+                            onPressed: _login,
+                            icon: Icon(Icons.login),
+                            label: Text('Login'),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-
-              SizedBox(height: 10), // Spacing between input fields
-
-              // Password input field
-              TextField(
-                controller: _passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-              SizedBox(height: 20), // Spacing between textfields and login button
-
-              // Login button
-              ElevatedButton(
-                onPressed: _login, // Use the _login method which uses named routes
-                child: Text('Login'),
-              )
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
