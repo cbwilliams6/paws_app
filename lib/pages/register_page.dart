@@ -13,6 +13,21 @@ class RegisterPageState extends State<RegisterPage> {
 
   bool _isLoading = false;
 
+  String getFirebaseAuthErrorMessage(String errorCode) {
+    switch (errorCode) {
+      case 'invalid-email':
+        return 'The email address is not valid.';
+      case 'email-already-in-use':
+        return 'This email is already registered.';
+      case 'operation-not-allowed':
+        return 'Email/password registration is not enabled.';
+      case 'weak-password':
+        return 'The password is too weak. Please choose a stronger one.';
+      default:
+        return 'Something went wrong. Please try again.';
+    }
+  }
+
   void _register() async {
     setState(() => _isLoading = true);
     try {
@@ -23,12 +38,21 @@ class RegisterPageState extends State<RegisterPage> {
 
       Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed: ${e.toString()}')),
-      );
-    } finally {
-      setState(() => _isLoading = false);
-    }
+        String message = 'Registration failed.';
+        if (e is FirebaseAuthException) {
+          message = getFirebaseAuthErrorMessage(e.code);
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } finally {
+        setState(() => _isLoading = false);
+      }
   }
 
   @override

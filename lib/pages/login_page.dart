@@ -12,6 +12,21 @@ class LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  String getFirebaseAuthErrorMessage(String errorCode) {
+    switch (errorCode) {
+      case 'invalid-email':
+        return 'The email address is not valid.';
+      case 'user-disabled':
+        return 'This user account has been disabled.';
+      case 'user-not-found':
+        return 'No account found with this email.';
+      case 'wrong-password':
+        return 'Incorrect password. Please try again.';
+      default:
+        return 'Login failed. Please try again.';
+    }
+  }
+
   void _login() async {
     try {
       await _auth.signInWithEmailAndPassword(
@@ -25,10 +40,19 @@ class LoginPageState extends State<LoginPage> {
         (route) => false, // Removes all previous routes
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Login failed: ${e.toString()}')),
-      );
-    }
+        String message = 'Login failed.';
+        if (e is FirebaseAuthException) {
+          message = getFirebaseAuthErrorMessage(e.code);
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.redAccent,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
   }
 
   @override
