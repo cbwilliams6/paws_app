@@ -12,11 +12,11 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: colorScheme.background,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView( // <- this fixes the overflow
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
             children: [
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               // Logo at the top
               Center(
@@ -31,28 +31,29 @@ class HomePage extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
 
               // Title text
               Text(
                 'PAWS Mobile App',
                 style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
 
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               // Gallery button
               Card(
                 elevation: 4,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                   leading: Icon(Icons.photo_library, color: colorScheme.primary),
                   title: Text(
                     'Gallery',
                     style: textTheme.titleMedium,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -62,20 +63,20 @@ class HomePage extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Activity Log button
               Card(
                 elevation: 4,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
                   leading: Icon(Icons.history, color: colorScheme.primary),
                   title: Text(
                     'Activity Log',
                     style: textTheme.titleMedium,
                   ),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -84,6 +85,7 @@ class HomePage extends StatelessWidget {
                   },
                 ),
               ),
+              const SizedBox(height: 32), // breathing room at bottom
             ],
           ),
         ),

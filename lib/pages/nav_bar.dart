@@ -5,6 +5,7 @@ import 'package:paws_app/pages/splash_page.dart';
 
 import 'gallery_page.dart';
 import 'activity_log_page.dart';
+import 'settings_page.dart';
 import 'home_page.dart';
 
 class NavigationBarPage extends StatefulWidget {
@@ -46,6 +47,8 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
         page = GalleryPage();
       case 2:
         page = ActivityLogPage();
+      case 3:
+        page = SettingsPage();
       default:
         throw UnimplementedError('No widget for $selectedIndex');
     }
